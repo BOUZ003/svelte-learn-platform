@@ -1,0 +1,56 @@
+/* src/components/CongNgheTable.module.css */
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table thead th {
+  background-color: #1E3A8A; /* Dark Blue */
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 15px;
+  letter-spacing: 0.05em;
+}
+
+.table tbody tr {
+  background-color: #ffffff;
+  transition: background-color 0.3s ease;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f3f4f6; /* Light Gray */
+}
+
+.table tbody tr:hover {
+  background-color: #dbeafe; /* Light Blue */
+  cursor: pointer;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb; /* Soft Border */
+}
+
+.table tbody tr:last-of-type td {
+  border-bottom: none;
+}
+
+.table td {
+  color: #4b5563; /* Dark Gray */
+  font-size: 13px;
+}
+
+.table th {
+  font-size: 14px;
+  font-weight: bold;
+}
