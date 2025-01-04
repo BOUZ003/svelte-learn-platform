@@ -138,33 +138,33 @@ const calculateTotal = (item: CartItem) => {
 
 
 <div class="payment-container">
-  <h1>Thanh toán khóa học</h1>
+  <h1>Payment</h1>
 
   <!-- Thông tin cá nhân -->
   <form class="payment-form" on:submit|preventDefault={handlePayment}>
     <div class="form-group">
       <label for="email">Email:</label>
-      <input type="email" bind:value={$email} id="email" placeholder="Nhập email" required />
+      <input type="email" bind:value={$email} id="email" placeholder="Enter Email" required />
     </div>
 
     <div class="form-group">
-      <label for="phone">Số điện thoại:</label>
-      <input type="text" bind:value={$phone} id="phone" placeholder="Nhập số điện thoại" required />
+      <label for="phone">Phone:</label>
+      <input type="text" bind:value={$phone} id="phone" placeholder="Enter Phone Number" required />
     </div>
 
     <!-- Thông tin thanh toán -->
     <div class="form-group">
-      <label for="cardNumber">Số thẻ tín dụng:</label>
-      <input type="text" bind:value={$cardNumber} id="cardNumber" placeholder="Nhập số thẻ" required />
+      <label for="cardNumber">Credit Card Number:</label>
+      <input type="text" bind:value={$cardNumber} id="cardNumber" placeholder="Enter Card Number" required />
     </div>
 
     <div class="form-group">
-      <label for="cardExpiry">Ngày hết hạn:</label>
+      <label for="cardExpiry">Expiration Date:</label>
       <input type="text" bind:value={$cardExpiry} id="cardExpiry" placeholder="MM/YY" required />
     </div>
 
     <div class="form-group">
-      <label for="cardCVV">Mã CVV:</label>
+      <label for="cardCVV">CVV:</label>
       <input type="text" bind:value={$cardCVV} id="cardCVV" placeholder="CVV" required />
     </div>
 
@@ -177,7 +177,7 @@ const calculateTotal = (item: CartItem) => {
         </div>
       {/each}
       <div class="summary-item">
-        <span  class="course-name" style="color: blue;">- Tổng tiền:</span> <!-- Hiển thị tổng tiền -->
+        <span  class="course-name" style="color: blue;">- Total Amount:</span> <!-- Hiển thị tổng tiền -->
         <span class="course-price" style="color: blue;">{formatNumberWithVND($totalPrice)}</span>
       </div>
     </div>
@@ -186,15 +186,15 @@ const calculateTotal = (item: CartItem) => {
     <!-- Điều khoản và chính sách -->
     <div class="terms-container">
       <input type="checkbox" id="terms" required />
-      <label for="terms">Tôi đồng ý với các <a href="/terms" target="_blank">điều khoản sử dụng</a>.</label>
+      <label for="terms">I agree to the <a href="/terms" target="_blank">Terms and Conditions</a>.</label>
     </div>
 
     <!-- Nút thanh toán -->
-    <button type="submit" class="payment-btn">Thanh toán</button>
+    <button type="submit" class="payment-btn">Complete Payment</button>
   </form>
 
   <div class="footer">
-    <p>Chúng tôi bảo mật thông tin của bạn với tiêu chuẩn cao nhất.</p>
+    <p>We protect your information with the highest security standards.</p>
   </div>
 </div>
 

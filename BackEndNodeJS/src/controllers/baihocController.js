@@ -1,5 +1,6 @@
 import db from '../config/db.js';
 
+//true
 export const getBaiHoc = (req, res) => {
   const sql = 'SELECT * FROM baihoc';
   db.query(sql, (err, result) => {

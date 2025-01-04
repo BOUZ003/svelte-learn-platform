@@ -91,12 +91,12 @@ const updateQuantity = async (index: number, newQuantity: number) => {
 </script>
 
 <div class="Content-Cart">
-    <a href="/cart" style="font-family: Arial, Helvetica, sans-serif; font-size: 30px; margin-top: 50px; float: left; margin-left: 20px;color:black;text-decoration: none;">Giỏ hàng của bạn</a>
+    <a href="/cart" style="font-family: Arial, Helvetica, sans-serif; font-size: 30px; margin-top: 50px; float: left; margin-left: 20px;color:black;text-decoration: none;">Shopping Cart</a>
     
     <div style="float: right; margin-right: 20px; text-align: right;">
         <button on:click={() => goto('/payment')} style="background-color: #2cc54f; color: white; font-family: Arial, Helvetica, sans-serif; font-size: 18px; padding: 10px 14px; border: none; cursor: pointer;border-radius: 5px; margin-top: 50px;margin-right: 20px;">
             <img src="../../../src/image/course/cart-shopping-solid (1).svg" alt="cart" style="width: 20px; margin-right: 10px;">
-            Thanh toán
+            Proceed to Payment
         </button>
         <!-- <p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; margin: 0;margin-right: 180px;margin-top: -56px;">Thành:</p> -->
         <!-- <p id="subtotal" style="font-family: Arial, Helvetica, sans-serif; font-size: 28px; margin: 0;margin-right: 180px;margin-top: 4px;">$0.00</p> -->
@@ -125,7 +125,7 @@ const updateQuantity = async (index: number, newQuantity: number) => {
 
 <hr>
 <div style="width: 100%; height: 200px; display: flex; align-items: center; justify-content: center;">
-    <a href="/course" style="text-decoration: none; color: #2cc54f; font-size: 20px; font-weight: 600;margin-top: -150px;">Quay trở lại giỏ hàng</a>
+    <a href="/course" style="text-decoration: none; color: #2cc54f; font-size: 20px; font-weight: 600;margin-top: -150px;">BACK</a>
 </div>
 
 <style>

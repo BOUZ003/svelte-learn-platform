@@ -106,8 +106,8 @@
   function goToProfile() {
     const userRole = localStorage.getItem("userId");
     if (userRole) {
-      // goto(`/my-account/${userRole}`);
-      goto(`/my-account`);
+      goto(`/my-account/${userRole}`);
+      // goto(`/my-account`);
     } else {
       console.error("User role not found");
     }

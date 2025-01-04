@@ -1,5 +1,6 @@
 import db from "../config/db.js";
 
+//true
 export const addDonHang = (req, res) => {
   const {
     NguoiDungID,
@@ -47,16 +48,16 @@ export const addDonHang = (req, res) => {
         .json({ error: "Stored procedure did not return DonHangID" });
     }
 
-    const DonHangID = result[0][0].DonHangID; // Lấy DonHangID
+    const DonHangID = result[0][0].DonHangID; 
     console.log("New DonHangID:", DonHangID);
 
-    // Prepare for `ChiTietDonHang`
     const detailSql = `
-      INSERT INTO ChiTietDonHang (DonHangID, TenKhoaHoc, SoLuong, gia)
+      INSERT INTO ChiTietDonHang (DonHangID, KhoaHocID, TenKhoaHoc, SoLuong, gia)
       VALUES ?
     `;
     const detailParams = DataKhoaHoc.map((item) => [
       DonHangID,
+      item.KhoaHocID,
       item.Ten,
       item.SoLuong,
       item.Tien,
@@ -71,8 +72,6 @@ export const addDonHang = (req, res) => {
           stack: err.stack,
         });
       }
-
-      // Prepare for `ThanhToan`
     });
 
     const paymentSql = `
@@ -99,7 +98,6 @@ export const addDonHang = (req, res) => {
       console.log("Inserted payment information:", paymentResult);
     });
 
-    // Xóa giỏ hàng theo NguoiDungID
     const deleteCartSql = "CALL delete_cart_by_nguoidungID(?)";
     db.query(deleteCartSql, [NguoiDungID], (err, deleteResult) => {
       if (err) {

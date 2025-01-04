@@ -13,6 +13,8 @@ import cartRouters from './src/routes/cartRouter.js';
 import khoahocRoutes from './src/routes/khoahocRoutes.js';
 import vnpayRoutes from './src/routes/vnpayRoutes.js';
 import thanhtoanRoutes from './src/routes/thanhtoanRoutes.js';
+import videokhoahocRoutes from './src/routes/videokhoahocRoutes.js';
+import donhangRoutes from './src/routes/donhangRoutes.js';
 
 
 
@@ -62,6 +64,9 @@ app.use('/api', khoahocgiangvienRoutes);
 app.use('/api', cartRouters);
 app.use('/api', vnpayRoutes);
 app.use('/api', thanhtoanRoutes);
+app.use('/api', videokhoahocRoutes);
+app.use('/api', donhangRoutes);
+
 
 
 

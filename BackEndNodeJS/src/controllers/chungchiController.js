@@ -1,5 +1,6 @@
 import db from '../config/db.js';
 
+//true
 export const getChungChi = (req, res) => {
   const sql = 'SELECT * FROM chungchi';
   db.query(sql, (err, result) => {

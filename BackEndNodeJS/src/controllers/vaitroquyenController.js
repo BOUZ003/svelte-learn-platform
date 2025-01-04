@@ -1,6 +1,7 @@
 
 import db from '../config/db.js';
 
+//true
 export const updateVaiTroQuyen = (req, res) => {
   const { VaiTroID, QuyenIDs } = req.body;
 

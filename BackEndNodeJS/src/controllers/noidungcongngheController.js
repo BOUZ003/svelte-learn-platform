@@ -1,5 +1,6 @@
 import db from '../config/db.js';
 
+//true
 export const getNoiDungCongNghe = (req, res) => {
   const sql = 'SELECT * FROM noidungcongnghe';
   db.query(sql, (err, result) => {

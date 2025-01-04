@@ -1,7 +1,6 @@
-// Controller để xử lý logic cho API
-
 import db from '../config/db.js';
 
+//true
 export const getLoaiNoiDung = (req, res) => {
   const sql = 'SELECT * FROM loainoidung';
   db.query(sql, (err, result) => {

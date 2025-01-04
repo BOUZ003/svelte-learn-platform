@@ -1,13 +1,12 @@
 import db from '../config/db.js';
 
+//true
 export const searchAndPaginateQuyen = (req, res) => {
   const { searchKeyword = '', page = 1, limit = 10 } = req.query;
 
-  // Câu lệnh SQL để gọi Stored Procedure
   const sql = 'CALL search_and_paginate_quyen(?, ?, ?)';
   const params = [searchKeyword, parseInt(page, 10), parseInt(limit, 10)];
 
-  // Thực thi Stored Procedure
   db.query(sql, params, (err, results) => {
     if (err) {
       console.error('Lỗi khi gọi Stored Procedure:', err);
@@ -15,19 +14,17 @@ export const searchAndPaginateQuyen = (req, res) => {
     }
 
     try {
-      const data = results[1] || []; // Dữ liệu trả về từ câu lệnh SELECT thứ hai
-      const totalRows = results[0]?.[0]?.TotalRows || 0; // Tổng số dòng từ câu lệnh SELECT đầu tiên
+      const data = results[1] || []; 
+      const totalRows = results[0]?.[0]?.TotalRows || 0; 
 
-      // Tính tổng số trang
       const totalPages = totalRows > 0 ? Math.ceil(totalRows / limit) : 0;
 
-      // Trả kết quả
       return res.json({
-        totalRows, // Tổng số bản ghi
-        page: parseInt(page, 10), // Trang hiện tại
-        limit: parseInt(limit, 10), // Số bản ghi mỗi trang
-        totalPages, // Tổng số trang
-        data, // Danh sách bản ghi
+        totalRows,
+        page: parseInt(page, 10), 
+        limit: parseInt(limit, 10),
+        totalPages,
+        data, 
       });
     } catch (parseError) {
       console.error('Lỗi xử lý dữ liệu trả về:', parseError);
@@ -36,39 +33,36 @@ export const searchAndPaginateQuyen = (req, res) => {
   });
 };
 
+//true
 export const getByIdQuyen = (req, res) => {
-  const { id } = req.params; // Lấy id từ tham số URL
+  const { id } = req.params; 
 
-  // Câu lệnh SQL để gọi Stored Procedure
   const sql = 'CALL get_by_id_quyen(?)';
   const params = [parseInt(id, 10)];
 
-  // Thực thi Stored Procedure
   db.query(sql, params, (err, results) => {
     if (err) {
       console.error('Lỗi khi gọi Stored Procedure:', err);
       return res.status(500).json({ error: 'Lỗi khi gọi Stored Procedure' });
     }
 
-    const data = results[0] || []; // Kết quả trả về từ stored procedure
+    const data = results[0] || [];
 
     if (data.length === 0) {
       return res.status(404).json({ message: 'Không tìm thấy quyền' });
     }
 
-    // Trả kết quả
-    return res.json(data[0]); // Trả về bản ghi đầu tiên
+    return res.json(data[0]); 
   });
 };
 
+//true
 export const addQuyen = (req, res) => {
   const { TenQuyen, MoTa, CapDo } = req.body;
 
-  // Câu lệnh SQL để gọi Stored Procedure
   const sql = 'CALL add_quyen(?, ?, ?)';
   const params = [TenQuyen, MoTa, CapDo];
 
-  // Thực thi Stored Procedure
   db.query(sql, params, (err, result) => {
     if (err) {
       console.error('Lỗi khi gọi Stored Procedure:', err);
@@ -79,20 +73,18 @@ export const addQuyen = (req, res) => {
   });
 };
 
+//true
 export const updateQuyen = (req, res) => {
   const { id } = req.params;
   const { TenQuyen, MoTa, CapDo } = req.body;
 
-  // Kiểm tra ID hợp lệ
   if (!id) {
     return res.status(400).json({ error: 'ID quyền không hợp lệ' });
   }
 
-  // Câu lệnh SQL để gọi Stored Procedure
   const sql = 'CALL update_quyen(?, ?, ?, ?)';
   const params = [parseInt(id, 10), TenQuyen, MoTa, CapDo];
 
-  // Thực thi Stored Procedure
   db.query(sql, params, (err, result) => {
     if (err) {
       console.error('Lỗi khi gọi Stored Procedure:', err);
@@ -108,10 +100,10 @@ export const updateQuyen = (req, res) => {
   });
 };
 
+//true
 export const deleteByIdQuyen = (req, res) => {
   const { id } = req.params;
 
-  // Kiểm tra ID hợp lệ
   if (!id) {
     return res.status(400).json({ error: 'ID quyền không hợp lệ' });
   }
@@ -119,7 +111,6 @@ export const deleteByIdQuyen = (req, res) => {
   const sql = 'CALL delete_by_id_quyen(?)';
   const params = [parseInt(id, 10)];
 
-  // Thực thi Stored Procedure
   db.query(sql, params, (err, results) => {
     if (err) {
       console.error('Lỗi khi gọi Stored Procedure:', err);
@@ -135,6 +126,7 @@ export const deleteByIdQuyen = (req, res) => {
   });
 };
 
+//true
 export const deleteQuyen = (req, res) => {
   const ids = req.body.ids; // Dự kiến nhận một mảng các ID quyền cần xóa
 

@@ -1,5 +1,6 @@
 import db from '../config/db.js';
 
+//true
 export const getLuaChon = (req, res) => {
   const sql = 'SELECT * FROM luachon';
   db.query(sql, (err, result) => {

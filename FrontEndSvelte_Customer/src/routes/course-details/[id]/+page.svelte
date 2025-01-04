@@ -1,20 +1,12 @@
 <script lang="ts">
-	import Header from '../../components/Header.svelte';
-	import Sidebar from '../../components/My-Account/Sidebar.svelte';
-	import MenuContent from '../../components/My-Account/MenuContent.svelte';
+	import Content from '../../../components/Course-Details/Content.svelte';
+	// import Comment from '../../../components/Course-Details/Comment.svelte';
 	
 </script>
 
 <section>
-	<div class="container-fuild" style="margin-left: -0.3px;">
-
-		<Header/>
-		<div class="d-flex flex-grow-1">
-			<Sidebar/>
-			<MenuContent/>
-		</div>
-
-	</div>
+    <Content/>
+    <!-- <Comment/> -->
 </section>
 
 <svelte:head>

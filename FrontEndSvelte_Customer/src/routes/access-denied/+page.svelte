@@ -2,20 +2,16 @@
   import { goto } from '$app/navigation';
   import { logout } from '../../stores/authStore';
 
-  // Hàm để quay lại trang trước
   function goBack() {
-    window.history.back(); // Quay lại trang trước
+    window.history.back(); 
   }
 
-  // Hàm để đăng xuất
   function handleLogout() {
     logout();
     goto('/login');
   }
 
-  // Hàm để liên hệ cấp quyền (ví dụ mở email client)
   function contactPermission() {
-    // Ví dụ mở email client, thay đổi tùy theo yêu cầu cụ thể
     window.location.href = 'mailto:support@example.com?subject=Yêu Cầu Cấp Quyền Truy Cập';
   }
 </script>

@@ -1,5 +1,6 @@
 import db from '../config/db.js';
 
+//true
 export const getCart = (req, res) => {
   const sql = 'SELECT * FROM Cart';
   db.query(sql, (err, result) => {
@@ -12,6 +13,7 @@ export const getCart = (req, res) => {
   });
 };
 
+//true
 export const addToCart = (req, res) => {
   const { NguoiDungID, KhoaHocID } = req.body;
   if (!NguoiDungID || !KhoaHocID) {
@@ -27,6 +29,7 @@ export const addToCart = (req, res) => {
   });
 };
 
+//true
 export const getCartByUserId = (req, res) => {
   const { NguoiDungID } = req.params;
   if (!NguoiDungID) {
@@ -40,7 +43,6 @@ export const getCartByUserId = (req, res) => {
       return res.status(500).json({ error: 'Lỗi khi lấy giỏ hàng' });
     }
 
-    // Assuming result[0] contains the cart data since it's the first result of the stored procedure
     const cartItems = result[0];
     if (cartItems.length === 0) {
       return res.status(404).json({ message: 'Giỏ hàng trống' });
@@ -50,8 +52,9 @@ export const getCartByUserId = (req, res) => {
   });
 };
 
+//true
 export const addQuantityToCart = (req, res) => {
-  const { cartid } = req.params; // Lấy CartID từ URL params
+  const { cartid } = req.params; 
   if (!cartid) {
     return res.status(400).json({ error: 'CartID là bắt buộc' });
   }
@@ -66,8 +69,9 @@ export const addQuantityToCart = (req, res) => {
   });
 };
 
+//true
 export const subtractQuantityFromCart = (req, res) => {
-  const { cartid } = req.params; // Lấy CartID từ URL params
+  const { cartid } = req.params; 
   if (!cartid) {
     return res.status(400).json({ error: 'CartID là bắt buộc' });
   }
@@ -82,8 +86,9 @@ export const subtractQuantityFromCart = (req, res) => {
   });
 };
 
+//true
 export const deleteFromCart = (req, res) => {
-  const { cartid } = req.params; // Lấy CartID từ URL params
+  const { cartid } = req.params; 
 
   if (!cartid) {
     return res.status(400).json({ error: 'CartID là bắt buộc' });
@@ -99,8 +104,7 @@ export const deleteFromCart = (req, res) => {
   });
 };
 
-
-
+//true
 export const getCartTotalByUserId = (req, res) => {
   const { NguoiDungID } = req.params;
 
@@ -108,7 +112,6 @@ export const getCartTotalByUserId = (req, res) => {
     return res.status(400).json({ error: 'NguoiDungID là bắt buộc' });
   }
 
-  // SQL query gọi stored procedure tính tổng tiền của giỏ hàng
   const sql = 'CALL get_cart_total_by_nguoidung_id(?)';
   db.query(sql, [NguoiDungID], (err, result) => {
     if (err) {
@@ -116,14 +119,12 @@ export const getCartTotalByUserId = (req, res) => {
       return res.status(500).json({ error: 'Lỗi khi lấy tổng tiền giỏ hàng' });
     }
 
-    // result[0] sẽ chứa kết quả trả về từ stored procedure (tổng tiền giỏ hàng)
     const totalPrice = result[0][0]?.TotalPrice;
 
     if (totalPrice === null || totalPrice === undefined) {
       return res.status(404).json({ message: 'Giỏ hàng trống hoặc không có dữ liệu' });
     }
 
-    // Trả về tổng tiền giỏ hàng
     res.status(200).json({ totalPrice });
   });
 };

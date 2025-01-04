@@ -1,5 +1,6 @@
 import db from '../config/db.js';
 
+//true
 export const getCongNghe = (req, res) => {
   const sql = 'SELECT * FROM congnghe';
   db.query(sql, (err, result) => {
@@ -8,19 +9,17 @@ export const getCongNghe = (req, res) => {
       res.status(500).json({ error: 'Lỗi khi lấy dữ liệu từ cơ sở dữ liệu' });
       return;
     }
-    res.json(result); // Trả về kết quả dưới dạng JSON
+    res.json(result); 
   });
 };
 
+//true
 export const searchAndPaginateCongNghe = (req, res) => {
-  // Lấy tham số từ query string
   const { searchKeyword = '', page = 1, limit = 10 } = req.query;
 
-  // Câu lệnh SQL để gọi Stored Procedure
   const sql = 'CALL search_and_paginate_congnghe(?, ?, ?)';
   const params = [searchKeyword, parseInt(page, 10), parseInt(limit, 10)];
 
-  // Thực thi Stored Procedure
   db.query(sql, params, (err, results) => {
     if (err) {
       console.error('Lỗi khi gọi Stored Procedure:', err);
@@ -28,20 +27,17 @@ export const searchAndPaginateCongNghe = (req, res) => {
     }
 
     try {
-      // Lấy danh sách bản ghi và tổng số dòng
-      const data = results[1] || []; // Dữ liệu trả về từ câu lệnh SELECT thứ hai
-      const totalRows = results[0]?.[0]?.TotalRows || 0; // Tổng số dòng từ câu lệnh SELECT đầu tiên
+      const data = results[1] || []; 
+      const totalRows = results[0]?.[0]?.TotalRows || 0; 
 
-      // Tính tổng số trang
       const totalPages = totalRows > 0 ? Math.ceil(totalRows / limit) : 0;
 
-      // Trả kết quả
       return res.json({
-        totalRows, // Tổng số bản ghi
-        page: parseInt(page, 10), // Trang hiện tại
-        limit: parseInt(limit, 10), // Số bản ghi mỗi trang
-        totalPages, // Tổng số trang
-        data, // Danh sách bản ghi
+        totalRows,
+        page: parseInt(page, 10), 
+        limit: parseInt(limit, 10), 
+        totalPages, 
+        data, 
       });
     } catch (parseError) {
       console.error('Lỗi xử lý dữ liệu trả về:', parseError);
@@ -50,6 +46,7 @@ export const searchAndPaginateCongNghe = (req, res) => {
   });
 };
 
+//true
 export const getByIdCongNghe = (req, res) => {
   const { id } = req.params;
   const sql = 'CALL get_by_id_congnghe(?)';
@@ -69,6 +66,7 @@ export const getByIdCongNghe = (req, res) => {
   });
 };
 
+//true
 export const addCongNghe = (req, res) => {
   const {
     Ten,
@@ -88,10 +86,8 @@ export const addCongNghe = (req, res) => {
     TrangThai
   } = req.body;
 
-  // Chuyển TrangThai thành 0 hoặc 1 nếu là giá trị boolean
-  const trangThaiValue = TrangThai ? 1 : 0; // Convert boolean to integer (0 or 1)
+  const trangThaiValue = TrangThai ? 1 : 0; 
 
-  // Log payload to debug
   console.log('Payload:', {
     Ten,
     TieuDe,
@@ -107,10 +103,9 @@ export const addCongNghe = (req, res) => {
     NguoiTao,
     MetaKeyword,
     MetaDescription,
-    TrangThai: trangThaiValue // Log TrangThai value as 0 or 1
+    TrangThai: trangThaiValue 
   });
 
-  // SQL query to call stored procedure
   const sql = 'CALL add_congnghe(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
   const params = [
     Ten,
@@ -127,10 +122,9 @@ export const addCongNghe = (req, res) => {
     NguoiTao,
     MetaKeyword,
     MetaDescription,
-    trangThaiValue // Truyền giá trị boolean cho TrangThai (0 hoặc 1)
+    trangThaiValue 
   ];
 
-  // Execute the SQL query
   db.query(sql, params, (err, result) => {
     if (err) {
       console.error('Error executing SQL query:', err);
@@ -142,9 +136,9 @@ export const addCongNghe = (req, res) => {
   });
 };
 
+//true
 export const updateCongNghe = (req, res) => {
-  // Lấy ID từ tham số URL
-  const { id } = req.params;  // ID được truyền qua URL
+  const { id } = req.params;  
   const {
     Ten,
     TieuDe,
@@ -163,13 +157,11 @@ export const updateCongNghe = (req, res) => {
     TrangThai
   } = req.body;
 
-  // Chuyển giá trị TrangThai thành 0 hoặc 1
   const trangThaiValue = TrangThai ? 1 : 0;
 
-  // Câu lệnh SQL sử dụng Call Procedure
   const sql = 'CALL update_congnghe(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
   const params = [
-    id,  // Sử dụng ID từ URL
+    id, 
     Ten,
     TieuDe,
     MoTa,
@@ -187,7 +179,6 @@ export const updateCongNghe = (req, res) => {
     trangThaiValue
   ];
 
-  // Thực thi truy vấn SQL
   db.query(sql, params, (err, result) => {
     if (err) {
       console.error('Error executing SQL query:', err);
@@ -198,11 +189,11 @@ export const updateCongNghe = (req, res) => {
   });
 };
 
+//true
 export const deleteByIdCongNghe = (req, res) => {
-  const { id } = req.params; // Lấy ID từ tham số URL
+  const { id } = req.params; 
   const parsedId = parseInt(id);
 
-  // Kiểm tra nếu ID không hợp lệ
   if (isNaN(parsedId)) {
     return res.status(400).json({ error: 'ID không hợp lệ' });
   }
@@ -216,29 +207,25 @@ export const deleteByIdCongNghe = (req, res) => {
       return res.status(500).json({ error: 'Lỗi khi gọi Stored Procedure', details: err.message });
     }
 
-    // Kiểm tra cấu trúc kết quả trả về
     const affectedRows = results?.[0]?.affectedRows || 0;
 
-    // Nếu affectedRows == 0, tức là không có bản ghi nào bị ảnh hưởng
     if (affectedRows === 0) {
       return res.status(404).json({ message: 'Không tìm thấy công nghệ để xóa' });
     }
 
-    // Nếu có bản ghi bị ảnh hưởng, xóa thành công
     res.status(200).json({ message: 'Công nghệ đã được xóa thành công' });
   });
 };
 
+//true
 export const deleteCongNghe = (req, res) => {
-  const ids = req.body.ids; // Dự kiến nhận một mảng các ID cần xóa
+  const ids = req.body.ids; 
 
-  // Kiểm tra tính hợp lệ của dữ liệu đầu vào
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
     return res.status(400).json({ error: 'Không có ID nào để xóa' });
   }
 
-  // Chuẩn bị câu lệnh SQL để xóa các ID
-  const placeholders = ids.map(() => '?').join(','); // Tạo danh sách `?` cho mỗi ID
+  const placeholders = ids.map(() => '?').join(','); 
   const sql = `DELETE FROM CongNghe WHERE ID IN (${placeholders})`;
 
   db.query(sql, ids, (err, result) => {
@@ -247,16 +234,15 @@ export const deleteCongNghe = (req, res) => {
       return res.status(500).json({ error: 'Không thể xóa công nghệ', details: err.message });
     }
 
-    // Kiểm tra nếu không có bản ghi nào bị ảnh hưởng
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Không tìm thấy công nghệ để xóa' });
     }
 
-    // Trả về kết quả thành công
     res.status(200).json({ message: `Đã xóa thành công ${result.affectedRows} công nghệ` });
   });
 };
 
+//true
 export const getCongNgheMenuPageUser = (req, res) => {
   const sql = 'CALL get_congnghe_menu_page_home_user()'; 
   db.query(sql, (err, result) => {
@@ -269,15 +255,13 @@ export const getCongNgheMenuPageUser = (req, res) => {
   });
 };
 
+//true
 export const getPaginateHienThiTrangChu = (req, res) => {
-  // Lấy tham số từ query string
   const { searchKeyword = '', page = 1, limit = 10 } = req.query;
 
-  // Câu lệnh SQL để gọi Stored Procedure
   const sql = 'CALL get_paginate_congnghe_hienthitrangchu_home_user(?, ?, ?)';
   const params = [searchKeyword, parseInt(page, 10), parseInt(limit, 10)];
 
-  // Thực thi Stored Procedure
   db.query(sql, params, (err, results) => {
     if (err) {
       console.error('Lỗi khi gọi Stored Procedure:', err);
@@ -285,20 +269,17 @@ export const getPaginateHienThiTrangChu = (req, res) => {
     }
 
     try {
-      // Lấy danh sách bản ghi và tổng số dòng
-      const data = results[1] || []; // Dữ liệu trả về từ câu lệnh SELECT thứ hai
-      const totalRows = results[0]?.[0]?.TotalRows || 0; // Tổng số dòng từ câu lệnh SELECT đầu tiên
+      const data = results[1] || []; 
+      const totalRows = results[0]?.[0]?.TotalRows || 0; 
 
-      // Tính tổng số trang
       const totalPages = totalRows > 0 ? Math.ceil(totalRows / limit) : 0;
 
-      // Trả kết quả
       return res.json({
-        totalRows, // Tổng số bản ghi
-        page: parseInt(page, 10), // Trang hiện tại
-        limit: parseInt(limit, 10), // Số bản ghi mỗi trang
-        totalPages, // Tổng số trang
-        data, // Danh sách bản ghi
+        totalRows, 
+        page: parseInt(page, 10), 
+        limit: parseInt(limit, 10), 
+        totalPages, 
+        data, 
       });
     } catch (parseError) {
       console.error('Lỗi xử lý dữ liệu trả về:', parseError);
