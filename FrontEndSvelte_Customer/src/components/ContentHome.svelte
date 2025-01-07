@@ -227,21 +227,22 @@ onMount(() => {
   <main>
     <!-- Intro Section -->
     <section class="intro">
-        <h2><img src="../../src/image/DevUTEHY.jpg" style="width: 50px;" alt="Logo DevUTEHY"> Chào mừng đến với khóa học, hướng dẫn lập trình trực tuyến tại DevUTEHY!</h2>
+        <h2><img src="../../src/image/DevUTEHY.jpg" style="width: 50px;" alt="Logo DevUTEHY"> 
+          Welcome to the Online Programming Course at DevUTEHY!</h2>
       <p>
-        Chúng tôi cung cấp các khóa học, các hướng dẫn lập trình chất lượng, giúp bạn xây dựng kỹ năng lập trình mạnh mẽ và chuẩn bị cho tương lai nghề nghiệp.
+        We offer high-quality courses and programming tutorials to help you build strong programming skills and prepare for a successful career. 
       </p>
     </section>
 
     <section class="courses">
-      <h2>Công Nghệ Nổi Bật</h2>
+      <h2>Outstanding Technology</h2>
       <div class="courses-list">
         {#each courses as course}
           <div class="course-card">
             <img src={course.Logo} alt="HTML logo" style="width: 30px;">
             <h3>{course.Ten}</h3>
             <p>{course.MoTa}</p>
-            <button on:click={() => alert(`Đi đến chi tiết khóa học: ${course.Ten}`)}>Xem chi tiết</button>
+            <button on:click={() => alert(`Đi đến chi tiết khóa học: ${course.Ten}`)}>View Details</button>
           </div>
         {/each}
       </div>
@@ -249,9 +250,9 @@ onMount(() => {
     
       <!-- Phân trang -->
       <div class="pagination">
-        <button on:click={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>Trước</button>
+        <button on:click={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
         <span>{currentPage}/{totalPages}</span>
-        <button on:click={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages}>Sau</button>
+        <button on:click={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages}>Next</button>
       </div>
     </section>
 
@@ -285,9 +286,9 @@ onMount(() => {
       
         <!-- Phân trang -->
         <div class="pagination">
-          <button on:click={() => goToPageBlog(currentPageBlog - 1)} disabled={currentPageBlog === 1}>Trước</button>
+          <button on:click={() => goToPageBlog(currentPageBlog - 1)} disabled={currentPageBlog === 1}>Previous</button>
           <span>{currentPageBlog}/{totalPagesBlog}</span>
-          <button on:click={() => goToPageBlog(currentPageBlog + 1)} disabled={currentPageBlog === totalPagesBlog}>Sau</button>
+          <button on:click={() => goToPageBlog(currentPageBlog + 1)} disabled={currentPageBlog === totalPagesBlog}>Next</button>
         </div>
       </section>
 
