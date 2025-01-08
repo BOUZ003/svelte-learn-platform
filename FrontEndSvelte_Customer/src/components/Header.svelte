@@ -104,11 +104,17 @@
   }
 
   function goToProfile() {
-    const userRole = localStorage.getItem("userId");
-    if (userRole) {
-      goto(`/my-account/${userRole}`);
-      // goto(`/my-account`);
+  const userRole = localStorage.getItem("role");
+  const userID = localStorage.getItem("userId");
+  if (userID) {
+    if (userRole === "Student") {
+      goto(`/my-account/${userID}`);
+    } else if (userRole === "Instructor") {
+      goto(`/instructor/${userID}`);
     } else {
+      console.error("Unknown user role");
+      }
+  } else {
       console.error("User role not found");
     }
   }
