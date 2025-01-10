@@ -85,7 +85,7 @@
   }
 
   function redirectToInstuctorCourse() {
-    goto(`/instructor-course`); 
+    goto(`/instructor-course/${userId}`); 
   }
 
   function redirectToInstuctorStudent() {

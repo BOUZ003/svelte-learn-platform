@@ -16,9 +16,20 @@
     subscribers?: number;
   }
 
+  interface User {
+    ID: number; // ID của người dùng
+    TenDangNhap: string; // Tên đăng nhập
+    Email: string; // Địa chỉ email
+    SoDienThoai: string; // Số điện thoại
+    HoTen: string; // Họ tên
+    VaiTroID: number; // ID vai trò
+    TrangThai: "HoatDong" | "BiKhoa" | "TamNgung"; // Trạng thái tài khoản
+  }
+
   let videoData: Video = {} as Video;
   let relatedVideos: Video[] = [];
   let courseData: any = {}; // Course details (to be fetched)
+  let userData: User[] = [];
 
   const getVideoData = async (videoId: string, courseId: string) => {
     try {
@@ -28,8 +39,10 @@
       const data = await response.json();
 
       if (response.ok) {
+        userData = data.user;
         videoData = data.video; // Video đã chọn
         relatedVideos = data.otherVideos; // Các video còn lại
+
       } else {
         console.error("Không thể tải video và các video liên quan");
       }
@@ -100,7 +113,7 @@
       <div class="channel-info">
         <img src="channel-avatar.png" alt="Avatar" class="avatar" />
         <div>
-          <h6 style="text-decoration: underline;">Vũ Văn Trường</h6>
+          <h6 style="text-decoration: underline;">{userData.HoTen}</h6>
           <p>{videoData.LuotXem} views</p>
         </div>
         <button class="subscribe-button">Theo dõi</button>

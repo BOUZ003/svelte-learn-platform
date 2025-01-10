@@ -85,7 +85,7 @@
   }
 
   function redirectToInstuctorCourse() {
-    goto(`/instructor-course`); 
+    goto(`/instructor-course/${userId}`); 
   }
 
   function redirectToInstuctorStudent() {
@@ -204,7 +204,7 @@
     margin-top: 30px;
     background-color: #2c3e50;
     border-right: 1px solid #34495e;
-    width: 283px;
+    width: 230px;
     min-height: 100vh;
     overflow-y: auto;
     transition: width 0.3s ease;

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Header from '../../components/Header.svelte';
-	import Sidebar from '../../components/Instructor-Course/Sidebar.svelte';
-	import MenuContent from '../../components/Instructor-Course/MenuContent.svelte';
+	import Header from '../../../components/Header.svelte';
+	import Sidebar from '../../../components/Instructor-Course/Sidebar.svelte';
+	import MenuContent from '../../../components/Instructor-Course/MenuContent.svelte';
 	
 </script>
 

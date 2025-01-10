@@ -70,3 +70,29 @@ export const getKhoaHocById = (req, res) => {
   });
 };
 
+
+export const searchKhoaHocByNguoiTao = (req, res) => {
+  const { id } = req.params;
+
+  // Kiểm tra idNguoiTao có tồn tại và hợp lệ
+  // if (!idNguoiTao || isNaN(Number(idNguoiTao))) {
+  //   return res.status(400).json({ error: 'idNguoiTao không hợp lệ' });
+  // }
+
+  const sql = 'CALL SearchKhoaHoc(?)';
+
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error('Lỗi khi gọi thủ tục lưu trữ:', err);
+      return res.status(500).json({ error: 'Lỗi máy chủ: Không thể truy vấn dữ liệu' });
+    }
+
+    if (!result || !result[0] || result[0].length === 0) {
+      return res.status(404).json({ error: 'Không tìm thấy khóa học nào của người tạo này' });
+    }
+
+    // Trả về kết quả tìm thấy
+    res.json(result[0]);
+  });
+};
+

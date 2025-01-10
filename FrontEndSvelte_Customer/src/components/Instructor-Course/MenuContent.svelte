@@ -1,104 +1,67 @@
 <script lang="ts">
-  let courses = [
-    {
-      id: 1,
-      title: "Course 1",
-      description: "This is the description for Course 1. It covers the basics of the subject.",
-      user: "John Doe",
-      avatar: "https://www.w3schools.com/w3images/avatar2.png",
-    },
-    {
-      id: 2,
-      title: "Course 2",
-      description: "This is the description for Course 2. It provides advanced insights into the topic.",
-      user: "Jane Smith",
-      avatar: "https://www.w3schools.com/w3images/avatar5.png",
-    },
-    {
-      id: 3,
-      title: "Course 3",
-      description: "This course focuses on practical applications and real-world scenarios.",
-      user: "Alice Johnson",
-      avatar: "https://www.w3schools.com/w3images/avatar6.png",
-    },
-    {
-      id: 2,
-      title: "Course 2",
-      description: "This is the description for Course 2. It provides advanced insights into the topic.",
-      user: "Jane Smith",
-      avatar: "https://www.w3schools.com/w3images/avatar5.png",
-    },
-    {
-      id: 3,
-      title: "Course 3",
-      description: "This course focuses on practical applications and real-world scenarios.",
-      user: "Alice Johnson",
-      avatar: "https://www.w3schools.com/w3images/avatar6.png",
-    },
-    {
-      id: 2,
-      title: "Course 2",
-      description: "This is the description for Course 2. It provides advanced insights into the topic.",
-      user: "Jane Smith",
-      avatar: "https://www.w3schools.com/w3images/avatar5.png",
-    },
-    {
-      id: 3,
-      title: "Course 3",
-      description: "This course focuses on practical applications and real-world scenarios.",
-      user: "Alice Johnson",
-      avatar: "https://www.w3schools.com/w3images/avatar6.png",
-    },
-    {
-      id: 2,
-      title: "Course 2",
-      description: "This is the description for Course 2. It provides advanced insights into the topic.",
-      user: "Jane Smith",
-      avatar: "https://www.w3schools.com/w3images/avatar5.png",
-    },
-    {
-      id: 3,
-      title: "Course 3",
-      description: "This course focuses on practical applications and real-world scenarios.",
-      user: "Alice Johnson",
-      avatar: "https://www.w3schools.com/w3images/avatar6.png",
-    },
-    {
-      id: 2,
-      title: "Course 2",
-      description: "This is the description for Course 2. It provides advanced insights into the topic.",
-      user: "Jane Smith",
-      avatar: "https://www.w3schools.com/w3images/avatar5.png",
-    },
-    {
-      id: 3,
-      title: "Course 3",
-      description: "This course focuses on practical applications and real-world scenarios.",
-      user: "Alice Johnson",
-      avatar: "https://www.w3schools.com/w3images/avatar6.png",
-    },
-  ];
+  import { onMount } from "svelte";
 
+  interface Course {
+    id: number;
+    title: string;
+    description: string;
+    avatar: string;
+    user: string;
+    status: string;
+  }
+
+  let courses: Course[] = [];
   let searchQuery = "";
-  let currentPage = 1;
-  let coursesPerPage = 3;
+  let loading = true; // Trạng thái tải API
+  let error: string | null = null; // Lưu lỗi nếu có
 
+  // Fetch dữ liệu từ API khi component được mount
+  onMount(async () => {
+    await fetchCourses();
+  });
+
+  // Hàm fetch dữ liệu từ API
+  const fetchCourses = async () => {
+    try {
+      loading = true;
+      error = null;
+
+      const response = await fetch("http://localhost:3000/api/khoahoc/search-by-intructor/23");
+      if (!response.ok) {
+        throw new Error("Failed to fetch courses");
+      }
+
+      const data = await response.json();
+
+      // Map dữ liệu API vào courses
+      courses = data.map((course: any): Course => ({
+        id: course.ID,
+        title: course.TenKhoaHoc,
+        description: course.MoTa,
+        avatar: course.AnhDaiDien, // Sửa đường dẫn ảnh nếu cần
+        user: `User ${course.IDNguoiTao}`, // Thêm thông tin user
+        status: course.TrangThai === "DangMo" ? "Open" : "Closed",
+      }));
+    } catch (err: any) {
+      error = err.message || "Unknown error occurred";
+    } finally {
+      loading = false;
+    }
+  };
+
+  // Lọc courses dựa trên search query
   const filteredCourses = () => {
     return courses.filter((course) =>
       course.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
 
-  const paginatedCourses = () => {
-    const startIndex = (currentPage - 1) * coursesPerPage;
-    return filteredCourses().slice(startIndex, startIndex + coursesPerPage);
-  };
-
+  // Xóa một course
   const deleteCourse = (id: number) => {
     courses = courses.filter((course) => course.id !== id);
-    if (currentPage > totalPages()) currentPage = totalPages();
   };
 
+  // Chỉnh sửa course
   const editCourse = (id: number) => {
     const course = courses.find((c) => c.id === id);
     if (course) {
@@ -109,6 +72,7 @@
     }
   };
 
+  // Thêm mới một course
   const addCourse = () => {
     const title = prompt("Enter course title:");
     const description = prompt("Enter course description:");
@@ -124,18 +88,9 @@
         description,
         user,
         avatar,
+        status,
       });
     }
-  };
-
-  const changePage = (page: number) => {
-    if (page >= 1 && page <= totalPages()) {
-      currentPage = page;
-    }
-  };
-
-  const totalPages = () => {
-    return Math.ceil(filteredCourses().length / coursesPerPage);
   };
 </script>
 
@@ -152,18 +107,23 @@
     <button on:click={addCourse} class="add-button">Add New Course</button>
   </div>
 
-  {#if paginatedCourses().length > 0}
-    {#each paginatedCourses() as course (course.id)}
+  <!-- Hiển thị trạng thái tải -->
+  {#if loading}
+    <p>Loading courses...</p>
+  {:else if error}
+    <p class="error-message">{error}</p>
+  {:else if filteredCourses().length > 0}
+    {#each filteredCourses() as course (course.id)}
       <div class="course-card">
         <div class="course-header">
           <h5 class="text-2xl font-bold">{course.title}</h5>
           <div class="flex items-center space-x-4">
-            <img class="user-avatar" src={course.avatar} alt={course.user} />
-            <span class="user-name">{course.user}</span>
+            <img class="user-avatar" src={course.avatar} />
           </div>
         </div>
         <div class="course-content">
           <p class="course-description">{course.description}</p>
+          <span>Status: {course.status}</span>
         </div>
         <div class="course-actions">
           <button
@@ -184,22 +144,6 @@
   {:else}
     <p class="no-results">No courses found.</p>
   {/if}
-
-  <div class="pagination">
-    <button
-      on:click={() => changePage(currentPage - 1)}
-      disabled={currentPage === 1}
-    >
-      Previous
-    </button>
-    <span class="page-info">Page {currentPage} / {totalPages()}</span>
-    <button
-      on:click={() => changePage(currentPage + 1)}
-      disabled={currentPage === totalPages()}
-    >
-      Next
-    </button>
-  </div>
 </div>
 
 
@@ -218,7 +162,7 @@
     background-color: #f9fafb;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
+    max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
   }
